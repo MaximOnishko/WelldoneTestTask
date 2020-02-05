@@ -8,11 +8,14 @@ using System.Collections;
 public class Cell : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     private bool _canBeUpgrade;
-    private static Resource _selectedResource;
+    private Image _vizualizeRes;
+    private Vector3 _startPos;
+
     public static event EventHandler MaxLevelRes;
+    private static Resource _selectedResource;
 
 
-    private Vector2 _startPos;
+
 
     public Resource resource { get; private set; }
 
@@ -39,6 +42,7 @@ public class Cell : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUp
 
     public void AddResoure(Resource res)
     {
+        _vizualizeRes = transform.GetChild(0).GetComponent<Image>();
         resource = res;
         VizualizeCell();
     }
@@ -52,8 +56,9 @@ public class Cell : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUp
         }
 
         Sprite sprite = GameManager.Instance.GetCurrentSprite(resource, resource.currentLevel);
-        transform.GetChild(0).gameObject.SetActive(true);
-        transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+
+        _vizualizeRes.gameObject.SetActive(true);
+        _vizualizeRes.sprite = sprite;
     }
 
     public void OnDrag(PointerEventData eventData)
